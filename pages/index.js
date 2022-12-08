@@ -113,7 +113,7 @@ export default function Home() {
       
       </div>
 
-      <div className='grid grid-cols-4 gap-10 w-10/12 mt-10 hidden show'>
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-10 w-10/12 mt-10 hidden show'>
         {click ? 
                 data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).map(function(item,index ){
                   const result = item.url.match(/\d+/g);
