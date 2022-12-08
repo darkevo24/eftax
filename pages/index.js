@@ -7,17 +7,8 @@ import axios from 'axios';
 export default function Home() {
   const url = "https://pokeapi.co/api/v2/pokemon/";
   const [pokemon,setPokemon] = useState([]);
-  const [data,setData] = useState([]);
   const [input,setInput] = useState("");
   const [click,setClick] = useState(false);
-
-  useEffect(function(){
-    axios.get(url + "?limit=100000&offset=0").then(function(res){
-      setData(res.data.results);
-    }).catch(function(err){
-      console.log(err);
-    })
-  },[])
 
   useEffect(function(){
     document.addEventListener("keypress", function(event) {
@@ -28,22 +19,29 @@ export default function Home() {
   })
 
   function Submit(){
-    if (document.getElementsByClassName("show")[0].className !== "hidden"){
-      document.getElementsByClassName("show")[0].classList.add("hidden");
+    if (!input){
+      axios.get(url + "?limit=100000&offset=0").then(function(res){
+        setPokemon(res.data.results);
+      }).catch(function(err){
+        console.log(err);
+      })
     }
-    axios.get(url + input).then(function(res){
-      setPokemon(res.data);
-    }).catch(function(err){
-      console.log(err);
-    })
+    else {
+      axios.get(url + input).then(function(res){
+        setPokemon(res.data);
+        console.log(pokemon);
+      }).catch(function(err){
+        console.log(err);
+      })
+    }
   }
 
   function Show(){
-    document.getElementsByClassName("show")[0].classList.remove("hidden");
-  }
-
-  function Hide(){
-    document.getElementsByClassName("show")[0].classList.add("hidden");
+    axios.get(url + "?limit=100000&offset=0").then(function(res){
+      setPokemon(res.data.results);
+    }).catch(function(err){
+      console.log(err);
+    })
   }
 
   function Sort(){
@@ -65,7 +63,6 @@ export default function Home() {
       </div>
       <div className=' flex items-center'>
         <button onClick={Show} className=' hover:opacity-80 bg-green-500 text-white px-4 py-2 rounded-lg mt-2'>Show All Pokemon</button>
-        <button onClick={Hide} className=' hover:opacity-80 bg-yellow-500 text-white px-4 py-2 rounded-lg ml-2 mt-2'>Hide All Pokemon</button>
       </div>
 
       <div>
@@ -113,9 +110,11 @@ export default function Home() {
       
       </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-4 gap-10 w-10/12 mt-10 hidden show'>
-        {click ? 
-                data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).map(function(item,index ){
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-10 w-10/12 mt-10 show'>
+      {Array.isArray(pokemon) &&
+      (
+        click ? 
+                pokemon.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).map(function(item,index ){
                   const result = item.url.match(/\d+/g);
                   return (
                     <div className=' flex flex-col items-center'>
@@ -125,7 +124,7 @@ export default function Home() {
                   )
                 })
                 :
-                data.map(function(item,index ){
+                pokemon.map(function(item,index ){
                   const result = item.url.match(/\d+/g);
                   return (
                     <div className=' flex flex-col items-center'>
@@ -134,7 +133,8 @@ export default function Home() {
                     </div>
                   )
                 })
-      }
+            )
+          }
       </div>
 
     </div>
