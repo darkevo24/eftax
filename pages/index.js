@@ -59,9 +59,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <p className='text-2xl'>Search By Name or ID Number</p>
-      <div className='flex mt-2'>
+      <div className='flex lg:flex-row flex-col mt-2'>
         <input onChange={function(e){setInput(e.target.value)}} className=' rounded-md border-2 border-black px-2 py-1 w-80' type="text"></input>
-        <button onClick={Submit} className=' hover:opacity-80 bg-blue-500 text-white px-4 py-2 rounded-lg ml-2'>Search</button>
+        <button onClick={Submit} className='lg:mt-0 mt-2 hover:opacity-80 bg-blue-500 text-white px-4 py-2 rounded-lg ml-2'>Search</button>
       </div>
       <div className=' flex items-center'>
         <button onClick={Show} className=' hover:opacity-80 bg-green-500 text-white px-4 py-2 rounded-lg mt-2'>Show All Pokemon</button>
